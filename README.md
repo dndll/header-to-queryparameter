@@ -1,9 +1,5 @@
-# QueryParameter-to-Header Middleware
-Traefik middleware to add a header with the value of a given URL query parameter
-
-`queryParameter` and `header` keys are configurable. It is assummed that there is only one query parameter with the given key. If there are several, the first one in the query string is chosen. If there is no matching query parameter, no header is added.
-
-Tested with Traefik v2.6.3.
+# Header-to-QueryParameter Middleware
+Inverse of forked repo.
 
 Example Traefik config:
 ``` yaml
