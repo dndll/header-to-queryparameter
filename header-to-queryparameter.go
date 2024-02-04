@@ -21,7 +21,7 @@ func CreateConfig() *Config {
 	}
 }
 
-type QueryParameterToHeaderMiddleware struct {
+type HeaderToQueryParameterMiddleware struct {
 	next           http.Handler
 	queryParameter string
 	header         string
@@ -37,7 +37,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		return nil, fmt.Errorf("query parameter cannot be empty string")
 	}
 
-	return &QueryParameterToHeaderMiddleware{
+	return &HeaderToQueryParameterMiddleware{
 		header:         config.Header,
 		queryParameter: config.QueryParameter,
 		next:           next,
@@ -45,11 +45,11 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 	}, nil
 }
 
-func (m *QueryParameterToHeaderMiddleware) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-	query := req.URL.Query()
-	parameterValues := query[m.queryParameter]
-	if len(parameterValues) > 0 {
-		req.Header.Set(m.header, parameterValues[0])
+func (m *HeaderToQueryParameterMiddleware) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	headers := req.Header
+	header := headers[m.header]
+	if len(header) > 0 {
+		req.URL.Query().Set(m.header, header[0])
 	}
 	m.next.ServeHTTP(rw, req)
 }
