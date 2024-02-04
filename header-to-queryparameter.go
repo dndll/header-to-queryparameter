@@ -1,5 +1,5 @@
 // Package plugindemo a demo plugin.
-package queryparameter_to_header
+package header_to_queryparameter
 
 import (
 	"context"
@@ -49,7 +49,7 @@ func (m *HeaderToQueryParameterMiddleware) ServeHTTP(rw http.ResponseWriter, req
 	headers := req.Header
 	header := headers[m.header]
 	if len(header) > 0 {
-		req.URL.Query().Set(m.header, header[0])
+		req.URL.Query().Set(m.queryParameter, header[0])
 	}
 	m.next.ServeHTTP(rw, req)
 }
