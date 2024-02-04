@@ -1,5 +1,5 @@
 // Package plugindemo a demo plugin.
-package queryparameter_to_header
+package header_to_queryparameter
 
 import (
 	"context"
